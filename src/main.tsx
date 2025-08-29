@@ -1,6 +1,6 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import { registerSW } from '../public/registerSW'
+import { registerSW } from '@/registerSW'
 import App from '@/App'
 
 createRoot(document.getElementById('root')!).render(
