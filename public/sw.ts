@@ -13,3 +13,7 @@ self.addEventListener('install', (event) => {
             })
     )
 })
+
+self.addEventListener('fetch', (event) => {
+    console.log('Interceptando requisição', event.request.url)
+})
