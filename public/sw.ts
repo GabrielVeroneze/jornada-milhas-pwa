@@ -17,8 +17,22 @@ self.addEventListener('install', (event) => {
 self.addEventListener('fetch', (event) => {
     console.log('Interceptando requisição', event.request.url)
 
-    event.respondWith(redePrimeiro(event.request))
+    event.respondWith(cacheEnquantoAtualiza(event.request))
 })
+
+const cacheEnquantoAtualiza = async (request) => {
+    const cache = await caches.open(CACHE_NAME)
+
+    const respostaEmCache = await cache.match(request)
+
+    const respostaDaRede = fetch(request).then(resposta => {
+        cache.put(request, resposta.clone())
+
+        return resposta
+    })
+
+    return respostaEmCache || respostaDaRede
+}
 
 const cachePrimeiro = async (request) => {
     const respostaDoCache = await caches.match(request)
