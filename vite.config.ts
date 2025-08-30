@@ -5,6 +5,7 @@ import path from 'path'
 
 const vitePWA = VitePWA({
     registerType: 'autoUpdate',
+    strategies: 'injectManifest',
     manifest: {
         id: '/',
         name: 'Jornada Milhas',
@@ -60,7 +61,7 @@ const vitePWA = VitePWA({
 
 // https://vite.dev/config/
 export default defineConfig({
-    plugins: [react()],
+    plugins: [react(), vitePWA],
     resolve: {
         alias: {
             '@': path.resolve(__dirname, './src'),
