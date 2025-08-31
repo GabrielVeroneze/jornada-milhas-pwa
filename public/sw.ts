@@ -5,6 +5,8 @@ import { ExpirationPlugin } from 'workbox-expiration'
 import { Route } from 'workbox-routing'
 import { StaleWhileRevalidate } from 'workbox-strategies'
 
+declare const self: ServiceWorkerGlobalScope
+
 self.skipWaiting()
 clientsClaim()
 
@@ -12,7 +14,7 @@ cleanupOutdatedCaches()
 precacheAndRoute(self.__WB_MANIFEST)
 
 const imageRoute = new Route(
-    (request) => {
+    ({ request }) => {
         return request.destination === 'image'
     },
     new StaleWhileRevalidate({
