@@ -2,8 +2,8 @@ import { clientsClaim } from 'workbox-core'
 import { cleanupOutdatedCaches, precacheAndRoute } from 'workbox-precaching'
 import { CacheableResponsePlugin } from 'workbox-cacheable-response'
 import { ExpirationPlugin } from 'workbox-expiration'
-import { Route } from 'workbox-routing'
-import { StaleWhileRevalidate } from 'workbox-strategies'
+import { NetworkFirst, StaleWhileRevalidate } from 'workbox-strategies'
+import { registerRoute, Route } from 'workbox-routing'
 
 declare const self: ServiceWorkerGlobalScope
 
@@ -30,3 +30,15 @@ const imageRoute = new Route(
         ],
     })
 )
+
+const stylesRoute = new Route(
+    ({ request }) => {
+        return request.destination === 'style'
+    },
+    new NetworkFirst({
+        cacheName: 'styles',
+    })
+)
+
+registerRoute(imageRoute)
+registerRoute(stylesRoute)
